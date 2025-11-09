@@ -2,9 +2,28 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/svg+xml" href="/blog.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>blog-app</title>
+    <title>Blog App</title>
+    <script>
+      (function() {
+        const THEME_STORAGE_KEY = 'blog-app-theme';
+        const storedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+        const root = document.documentElement;
+        let themeToApply;
+        
+        if (storedTheme === 'light' || storedTheme === 'dark') {
+          themeToApply = storedTheme;
+        } else {
+          const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          themeToApply = prefersDark ? 'dark' : 'light';
+          localStorage.setItem(THEME_STORAGE_KEY, themeToApply);
+        }
+        
+        root.classList.remove('light', 'dark');
+        root.classList.add(themeToApply);
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
