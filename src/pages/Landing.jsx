@@ -1,24 +1,25 @@
-import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { PenSquare, BookOpen, Users, Zap } from 'lucide-react';
-import Navbar from '../components/Navbar';
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { PenSquare, BookOpen, Users, Zap } from "lucide-react";
+import Navbar from "../components/Navbar";
 
 const Landing = () => {
   return (
     <div className="min-h-screen bg-linear-to-b from-background to-secondary">
       <Navbar />
-      
+
       {/* Hero Section */}
       <section className="container mx-auto px-4 pt-20 pb-9">
         <div className="max-w-4xl mx-auto text-center space-y-8">
           <h1 className="text-5xl md:text-6xl font-bold leading-tight">
-            Share Your Stories with{' '}
+            Share Your Stories with{" "}
             <span className="bg-primary bg-clip-text text-transparent">
               Blog App
             </span>
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            A modern blogging platform where your ideas come to life. Create, share, and connect with readers around the world.
+            A modern blogging platform where your ideas come to life. Create,
+            share, and connect with readers around the world.
           </p>
           <div className="flex gap-4 justify-center flex-wrap">
             <Link to="/register">
@@ -45,7 +46,8 @@ const Landing = () => {
             </div>
             <h3 className="text-xl font-semibold">Easy Writing</h3>
             <p className="text-muted-foreground">
-              Beautiful editor with all the tools you need to create engaging content
+              Beautiful editor with all the tools you need to create engaging
+              content
             </p>
           </div>
 

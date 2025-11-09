@@ -1,5 +1,5 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 const useAuthStore = create(
   persist(
@@ -7,35 +7,35 @@ const useAuthStore = create(
       user: null,
       token: null,
       isAuthenticated: false,
-      
+
       login: (userData, token) => {
-        set({ 
-          user: userData, 
-          token, 
-          isAuthenticated: true 
+        set({
+          user: userData,
+          token,
+          isAuthenticated: true,
         });
       },
-      
+
       logout: () => {
-        set({ 
-          user: null, 
-          token: null, 
-          isAuthenticated: false 
+        set({
+          user: null,
+          token: null,
+          isAuthenticated: false,
         });
       },
-      
+
       register: (userData, token) => {
-        set({ 
-          user: userData, 
-          token, 
-          isAuthenticated: true 
+        set({
+          user: userData,
+          token,
+          isAuthenticated: true,
         });
       },
     }),
     {
-      name: 'auth-storage',
-    }
-  )
+      name: "auth-storage",
+    },
+  ),
 );
 
 export default useAuthStore;

@@ -1,8 +1,8 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { PenSquare, LogOut, Home, Moon, Sun } from 'lucide-react';
-import useAuth from '../hooks/useAuth';
-import useTheme from '../hooks/useTheme';
+import { Link, useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { PenSquare, LogOut, Home, Moon, Sun } from "lucide-react";
+import useAuth from "../hooks/useAuth";
+import useTheme from "../hooks/useTheme";
 
 const Navbar = () => {
   const { user, isAuthenticated, logout } = useAuth();
@@ -13,7 +13,10 @@ const Navbar = () => {
     <nav className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
-          <Link to={isAuthenticated ? "/dashboard" : "/"} className="flex items-center space-x-2">
+          <Link
+            to={isAuthenticated ? "/dashboard" : "/"}
+            className="flex items-center space-x-2"
+          >
             <div className="rounded-lg bg-primary p-2">
               <PenSquare className="h-5 w-5 text-primary-foreground " />
             </div>
@@ -30,7 +33,7 @@ const Navbar = () => {
               className="h-9 w-9 p-0"
               aria-label="Toggle theme"
             >
-              {theme === 'dark' ? (
+              {theme === "dark" ? (
                 <Sun className="h-4 w-4 text-yellow-500" />
               ) : (
                 <Moon className="h-4 w-4 text-gray-500" />

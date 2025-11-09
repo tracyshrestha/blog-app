@@ -38,7 +38,7 @@ const EditPost = () => {
   const isContentEmpty = (html) => {
     if (!html) return true;
     // Create a temporary div to parse HTML and get text content
-    const tempDiv = document.createElement('div');
+    const tempDiv = document.createElement("div");
     tempDiv.innerHTML = html;
     return !tempDiv.textContent || !tempDiv.textContent.trim();
   };
@@ -112,7 +112,9 @@ const EditPost = () => {
               <div className="flex gap-4">
                 <Button
                   type="submit"
-                  disabled={isSubmitting || !title.trim() || isContentEmpty(body)}
+                  disabled={
+                    isSubmitting || !title.trim() || isContentEmpty(body)
+                  }
                   className="flex-1"
                 >
                   {isSubmitting ? "Updating..." : "Update Post"}
