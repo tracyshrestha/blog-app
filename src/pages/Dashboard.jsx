@@ -203,7 +203,7 @@ const Dashboard = () => {
                         onClick={() => handlePageChange(pageIndex + 1)}
                         className={`${
                           page === pageIndex + 1
-                            ? "bg-lexus/90 text-white dark:bg-lexusDark/90"
+                            ? "bg-primary/90 text-white dark:bg-primary/90"
                             : ""
                         }`}
                       >

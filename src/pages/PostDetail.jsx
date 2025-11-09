@@ -60,7 +60,7 @@ const PostDetail = () => {
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto">
           <Button
-            variant="ghost"
+            variant="secondary"
             onClick={() => navigate('/dashboard')}
             className="mb-6"
           >
