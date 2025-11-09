@@ -5,7 +5,7 @@ import Navbar from '../components/Navbar';
 
 const Landing = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-secondary">
+    <div className="min-h-screen bg-linear-to-b from-background to-secondary">
       <Navbar />
       
       {/* Hero Section */}
@@ -13,7 +13,7 @@ const Landing = () => {
         <div className="max-w-4xl mx-auto text-center space-y-8">
           <h1 className="text-5xl md:text-6xl font-bold leading-tight">
             Share Your Stories with{' '}
-            <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-primary to-accent bg-clip-text text-transparent">
               BlogSpace
             </span>
           </h1>
@@ -73,7 +73,7 @@ const Landing = () => {
 
       {/* CTA Section */}
       <section className="container mx-auto px-4 py-20">
-        <div className="max-w-3xl mx-auto text-center space-y-6 p-12 rounded-2xl bg-gradient-to-r from-primary/10 to-accent/10 border border-border">
+        <div className="max-w-3xl mx-auto text-center space-y-6 p-12 rounded-2xl bg-linear-to-r from-primary/10 to-accent/10 border border-border">
           <h2 className="text-3xl font-bold">Ready to Start Your Journey?</h2>
           <p className="text-lg text-muted-foreground">
             Join thousands of writers sharing their stories on BlogSpace

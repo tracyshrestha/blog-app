@@ -44,7 +44,7 @@ const PostDetail = () => {
 
   if (!post) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-background to-secondary">
+      <div className="min-h-screen bg-linear-to-b from-background to-secondary">
         <Navbar />
         <div className="flex justify-center items-center py-20">
           <Loader2 className="h-8 w-8 animate-spin text-primary" />
@@ -54,7 +54,7 @@ const PostDetail = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-secondary">
+    <div className="min-h-screen bg-linear-to-b from-background to-secondary">
       <Navbar />
       
       <div className="container mx-auto px-4 py-12">
