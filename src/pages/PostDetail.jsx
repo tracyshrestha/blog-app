@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { ArrowLeft, Edit, Trash2, Loader2 } from 'lucide-react';
-import Navbar from '../components/Navbar';
-import usePostsStore from '../stores/postsStore';
-import usePosts from '../hooks/usePosts';
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { ArrowLeft, Edit, Trash2, Loader2 } from "lucide-react";
+import Navbar from "../components/Navbar";
+import usePostsStore from "../stores/postsStore";
+import usePosts from "../hooks/usePosts";
 
 const PostDetail = () => {
   const { id } = useParams();
@@ -26,19 +26,21 @@ const PostDetail = () => {
 
   const fetchPost = async () => {
     try {
-      const response = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`);
+      const response = await fetch(
+        `https://jsonplaceholder.typicode.com/posts/${id}`,
+      );
       const data = await response.json();
       setPost(data);
     } catch (error) {
-      console.error('Failed to fetch post:', error);
-      navigate('/dashboard');
+      console.error("Failed to fetch post:", error);
+      navigate("/dashboard");
     }
   };
 
   const handleDelete = async () => {
-    if (window.confirm('Are you sure you want to delete this post?')) {
+    if (window.confirm("Are you sure you want to delete this post?")) {
       await removePost(parseInt(id));
-      navigate('/dashboard');
+      navigate("/dashboard");
     }
   };
 
@@ -56,12 +58,12 @@ const PostDetail = () => {
   return (
     <div className="min-h-screen bg-linear-to-b from-background to-secondary">
       <Navbar />
-      
+
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto">
           <Button
-            variant="ghost"
-            onClick={() => navigate('/dashboard')}
+            variant="secondary"
+            onClick={() => navigate("/dashboard")}
             className="mb-6"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
@@ -93,9 +95,7 @@ const PostDetail = () => {
                 </div>
               </div>
               {post.author && (
-                <p className="text-muted-foreground">
-                  By {post.author}
-                </p>
+                <p className="text-muted-foreground">By {post.author}</p>
               )}
             </CardHeader>
             <CardContent>

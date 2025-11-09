@@ -47,16 +47,14 @@ const Dashboard = () => {
         post?.content?.toLowerCase() || post?.body?.toLowerCase() || "";
 
       // ✅ Search filter
-      const matchesSearch =
-        title.includes(search) || content.includes(search);
+      const matchesSearch = title.includes(search) || content.includes(search);
 
       // ✅ Tag (A–Z range) filter
       let matchesTag = true;
       if (selectedTag) {
         const firstLetter = (post?.title?.[0] || "").toUpperCase();
         matchesTag =
-          firstLetter >= selectedTag.start &&
-          firstLetter <= selectedTag.end;
+          firstLetter >= selectedTag.start && firstLetter <= selectedTag.end;
       }
 
       return matchesSearch && matchesTag;
@@ -75,7 +73,7 @@ const Dashboard = () => {
   const startIndex = (page - 1) * postsPerPage;
   const paginatedPosts = filteredPosts.slice(
     startIndex,
-    startIndex + postsPerPage
+    startIndex + postsPerPage,
   );
 
   const handleEdit = (postId) => navigate(`/edit/${postId}`);
@@ -138,9 +136,7 @@ const Dashboard = () => {
               key={tag.label}
               variant={selectedTag?.label === tag.label ? "default" : "outline"}
               onClick={() => {
-                setSelectedTag(
-                  selectedTag?.label === tag.label ? null : tag
-                );
+                setSelectedTag(selectedTag?.label === tag.label ? null : tag);
                 setPage(1);
               }}
               className="rounded-full"
@@ -203,7 +199,7 @@ const Dashboard = () => {
                         onClick={() => handlePageChange(pageIndex + 1)}
                         className={`${
                           page === pageIndex + 1
-                            ? "bg-lexus/90 text-white dark:bg-lexusDark/90"
+                            ? "bg-primary/90 text-white dark:bg-primary/90"
                             : ""
                         }`}
                       >
