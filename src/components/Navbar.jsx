@@ -14,32 +14,32 @@ const Navbar = () => {
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           <Link to={isAuthenticated ? "/dashboard" : "/"} className="flex items-center space-x-2">
-            <div className="rounded-lg bg-linear-to-r from-primary to-accent p-2">
-              <PenSquare className="h-5 w-5 text-primary-foreground" />
+            <div className="rounded-lg bg-primary p-2">
+              <PenSquare className="h-5 w-5 text-primary-foreground " />
             </div>
-            <span className="text-xl font-bold bg-linear-to-r from-primary to-accent bg-clip-text text-transparent">
-              BlogSpace
+            <span className="text-xl font-bold bg-primary bg-clip-text text-transparent">
+              Blog App
             </span>
           </Link>
 
           <div className="flex items-center gap-4">
             <Button
-              variant="default"
+              variant="ghost"
               size="sm"
               onClick={toggleTheme}
               className="h-9 w-9 p-0"
               aria-label="Toggle theme"
             >
               {theme === 'dark' ? (
-                <Sun className="h-4 w-4" />
+                <Sun className="h-4 w-4 text-yellow-500" />
               ) : (
-                <Moon className="h-4 w-4" />
+                <Moon className="h-4 w-4 text-gray-500" />
               )}
             </Button>
             {isAuthenticated ? (
               <>
                 <Link to="/dashboard">
-                  <Button variant="ghost" size="sm">
+                  <Button variant="default" size="sm">
                     <Home className=" h-4 w-4" />
                   </Button>
                 </Link>
@@ -62,7 +62,7 @@ const Navbar = () => {
             ) : (
               <>
                 <Link to="/login">
-                  <Button variant="ghost" size="sm">
+                  <Button variant="default" size="sm">
                     Login
                   </Button>
                 </Link>

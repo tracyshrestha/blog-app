@@ -9,12 +9,12 @@ const Landing = () => {
       <Navbar />
       
       {/* Hero Section */}
-      <section className="container mx-auto px-4 py-20">
+      <section className="container mx-auto px-4 pt-20 pb-9">
         <div className="max-w-4xl mx-auto text-center space-y-8">
           <h1 className="text-5xl md:text-6xl font-bold leading-tight">
             Share Your Stories with{' '}
-            <span className="bg-linear-to-r from-primary to-accent bg-clip-text text-transparent">
-              BlogSpace
+            <span className="bg-primary bg-clip-text text-transparent">
+              Blog App
             </span>
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
@@ -27,17 +27,17 @@ const Landing = () => {
                 Start Writing
               </Button>
             </Link>
-            <Link to="/login">
+            {/* <Link to="/login">
               <Button size="lg" variant="outline" className="text-lg px-8">
                 Sign In
               </Button>
-            </Link>
+            </Link> */}
           </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section className="container mx-auto px-4 py-20">
+      <section className="container mx-auto px-4 py-11">
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           <div className="text-center space-y-4 p-6 rounded-lg bg-card hover:shadow-md transition-shadow">
             <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
@@ -50,8 +50,8 @@ const Landing = () => {
           </div>
 
           <div className="text-center space-y-4 p-6 rounded-lg bg-card hover:shadow-md transition-shadow">
-            <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center mx-auto">
-              <Users className="h-6 w-6 text-accent" />
+            <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
+              <Users className="h-6 w-6 text-primary" />
             </div>
             <h3 className="text-xl font-semibold">Build Audience</h3>
             <p className="text-muted-foreground">

@@ -17,26 +17,51 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 
+// ✨ Define 5 tag groups
+const TAG_RANGES = [
+  { label: "A–E", start: "A", end: "E" },
+  { label: "F–J", start: "F", end: "J" },
+  { label: "K–O", start: "K", end: "O" },
+  { label: "P–T", start: "P", end: "T" },
+  { label: "U–Z", start: "U", end: "Z" },
+];
+
 const Dashboard = () => {
   const navigate = useNavigate();
   const { posts, loading, removePost } = usePosts();
   const { user } = useAuth();
 
-  // 👇 Search and Pagination state
+  // 👇 States
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedTag, setSelectedTag] = useState(null);
   const [page, setPage] = useState(1);
-  const postsPerPage = 9;
+  const postsPerPage = 6;
 
-  // 👇 Filtered posts (case-insensitive search)
+  // 👇 Filter posts safely
   const filteredPosts = useMemo(() => {
+    const search = searchTerm.toLowerCase();
+
     return posts.filter((post) => {
       const title = post?.title?.toLowerCase() || "";
-      const content = post?.content?.toLowerCase() || "";
-      const search = searchTerm.toLowerCase();
+      const content =
+        post?.content?.toLowerCase() || post?.body?.toLowerCase() || "";
 
-      return title.includes(search) || content.includes(search);
+      // ✅ Search filter
+      const matchesSearch =
+        title.includes(search) || content.includes(search);
+
+      // ✅ Tag (A–Z range) filter
+      let matchesTag = true;
+      if (selectedTag) {
+        const firstLetter = (post?.title?.[0] || "").toUpperCase();
+        matchesTag =
+          firstLetter >= selectedTag.start &&
+          firstLetter <= selectedTag.end;
+      }
+
+      return matchesSearch && matchesTag;
     });
-  }, [posts, searchTerm]);
+  }, [posts, searchTerm, selectedTag]);
 
   const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
 
@@ -53,9 +78,7 @@ const Dashboard = () => {
     startIndex + postsPerPage
   );
 
-  const handleEdit = (postId) => {
-    navigate(`/edit/${postId}`);
-  };
+  const handleEdit = (postId) => navigate(`/edit/${postId}`);
 
   const handleDelete = async (postId) => {
     toast("Are you sure you want to delete this post?", {
@@ -65,9 +88,7 @@ const Dashboard = () => {
           await removePost(postId);
         },
       },
-      cancel: {
-        label: "Cancel",
-      },
+      cancel: { label: "Cancel" },
     });
   };
 
@@ -97,7 +118,7 @@ const Dashboard = () => {
                 value={searchTerm}
                 onChange={(e) => {
                   setSearchTerm(e.target.value);
-                  setPage(1); // reset pagination when searching
+                  setPage(1);
                 }}
                 className="pl-8 w-48 md:w-64"
               />
@@ -108,6 +129,25 @@ const Dashboard = () => {
               New Post
             </Button>
           </div>
+        </div>
+
+        {/* Tag Filter */}
+        <div className="flex flex-wrap justify-center gap-2 mb-8">
+          {TAG_RANGES.map((tag) => (
+            <Button
+              key={tag.label}
+              variant={selectedTag?.label === tag.label ? "default" : "outline"}
+              onClick={() => {
+                setSelectedTag(
+                  selectedTag?.label === tag.label ? null : tag
+                );
+                setPage(1);
+              }}
+              className="rounded-full"
+            >
+              {tag.label}
+            </Button>
+          ))}
         </div>
 
         {/* Posts Grid */}
@@ -122,11 +162,11 @@ const Dashboard = () => {
             </div>
             <h3 className="text-2xl font-semibold mb-2">No posts found</h3>
             <p className="text-muted-foreground mb-6">
-              {searchTerm
-                ? "Try adjusting your search term."
+              {searchTerm || selectedTag
+                ? "Try adjusting your filters."
                 : "Start creating amazing content for your readers."}
             </p>
-            {!searchTerm && (
+            {!searchTerm && !selectedTag && (
               <Button onClick={() => navigate("/create")}>
                 <PenSquare className="mr-2 h-4 w-4" />
                 Create Your First Post
@@ -146,7 +186,7 @@ const Dashboard = () => {
               ))}
             </div>
 
-            {/* 👇 Centered Pagination */}
+            {/* Pagination */}
             <div className="mt-8 flex justify-center">
               <Pagination className="w-fit p-2">
                 <PaginationContent>

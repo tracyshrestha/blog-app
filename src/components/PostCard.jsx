@@ -29,8 +29,8 @@ const PostCard = ({ post, onEdit, onDelete, showActions = true }) => {
       {showActions && (
         <CardFooter className="flex justify-between gap-2">
           <Link to={`/post/${post.id}`} className="flex-1">
-            <Button variant="outline" className="w-full" size="sm">
-              <Eye className="mr-2 h-4 w-4" />
+            <Button variant="outline" className="w-full border-2 border-primary text-primary" size="sm">
+              <Eye className="mr-2 h-4 w-4 " />
               Read More
             </Button>
           </Link>
@@ -38,6 +38,7 @@ const PostCard = ({ post, onEdit, onDelete, showActions = true }) => {
             variant="outline" 
             size="sm"
             onClick={() => onEdit(post.id)}
+            className='border-2 border-primary text-primary'
           >
             <Edit className="h-4 w-4" />
           </Button>
@@ -45,7 +46,7 @@ const PostCard = ({ post, onEdit, onDelete, showActions = true }) => {
             variant="outline" 
             size="sm"
             onClick={() => onDelete(post.id)}
-            className="hover:bg-destructive hover:text-destructive-foreground"
+            className="hover:bg-destructive hover:text-destructive-foreground border-2 border-primary text-primary"
           >
             <Trash2 className="h-4 w-4" />
           </Button>
