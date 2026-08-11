@@ -1,8 +1,8 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { PenSquare, Loader2, Search } from "lucide-react";
+import { PenSquare, Loader2, Search, Mic, MicOff, X } from "lucide-react";
 import Navbar from "../components/Navbar";
 import PostCard from "../components/PostCard";
 import usePosts from "../hooks/usePosts";
@@ -26,6 +26,11 @@ const TAG_RANGES = [
   { label: "U–Z", start: "U", end: "Z" },
 ];
 
+const SpeechRecognitionAPI =
+  typeof window !== "undefined"
+    ? window.SpeechRecognition || window.webkitSpeechRecognition
+    : null;
+
 const Dashboard = () => {
   const navigate = useNavigate();
   const { posts, loading, removePost } = usePosts();
@@ -35,7 +40,85 @@ const Dashboard = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedTag, setSelectedTag] = useState(null);
   const [page, setPage] = useState(1);
+  const [isListening, setIsListening] = useState(false);
+  const recognitionRef = useRef(null);
+  const listenTimeoutRef = useRef(null);
   const postsPerPage = 6;
+  const MAX_LISTEN_MS = 30_000;
+
+  const stopSpeechToText = () => {
+    if (listenTimeoutRef.current) {
+      clearTimeout(listenTimeoutRef.current);
+      listenTimeoutRef.current = null;
+    }
+    recognitionRef.current?.stop();
+    setIsListening(false);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (listenTimeoutRef.current) clearTimeout(listenTimeoutRef.current);
+      recognitionRef.current?.stop();
+    };
+  }, []);
+
+  const toggleSpeechToText = () => {
+    if (!SpeechRecognitionAPI) {
+      toast.error("Speech recognition is not supported in this browser.");
+      return;
+    }
+
+    // Stop when mic is clicked again
+    if (isListening) {
+      stopSpeechToText();
+      return;
+    }
+
+    const recognition = new SpeechRecognitionAPI();
+    recognition.lang = "en-US";
+    recognition.interimResults = true;
+    recognition.continuous = true;
+    recognition.maxAlternatives = 1;
+
+    recognition.onstart = () => setIsListening(true);
+
+    recognition.onresult = (event) => {
+      let transcript = "";
+      for (let i = 0; i < event.results.length; i++) {
+        transcript += event.results[i][0].transcript;
+      }
+      transcript = transcript.trim();
+      if (transcript) {
+        setSearchTerm(transcript);
+        setPage(1);
+      }
+    };
+
+    recognition.onerror = (event) => {
+      stopSpeechToText();
+      if (event.error === "not-allowed") {
+        toast.error("Microphone access was denied.");
+      } else if (event.error !== "aborted" && event.error !== "no-speech") {
+        toast.error("Could not capture speech. Please try again.");
+      }
+    };
+
+    recognition.onend = () => {
+      if (listenTimeoutRef.current) {
+        clearTimeout(listenTimeoutRef.current);
+        listenTimeoutRef.current = null;
+      }
+      setIsListening(false);
+    };
+
+    recognitionRef.current = recognition;
+    recognition.start();
+
+    // Auto-stop after max 30 seconds
+    listenTimeoutRef.current = setTimeout(() => {
+      stopSpeechToText();
+    }, MAX_LISTEN_MS);
+  };
 
   // 👇 Filter posts safely
   const filteredPosts = useMemo(() => {
@@ -107,19 +190,54 @@ const Dashboard = () => {
           </div>
 
           <div className="flex items-center gap-3">
-            {/* Search Input */}
+            {/* Search Input + Speech-to-Text */}
             <div className="relative">
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
                 type="text"
-                placeholder="Search posts..."
+                placeholder={isListening ? "Listening..." : "Search posts..."}
                 value={searchTerm}
                 onChange={(e) => {
                   setSearchTerm(e.target.value);
                   setPage(1);
                 }}
-                className="pl-8 w-48 md:w-64"
+                className={`pl-8 w-48 md:w-64 ${searchTerm ? "pr-16" : "pr-10"}`}
               />
+              <div className="absolute right-1.5 top-1/2 -translate-y-1/2 flex items-center">
+                {searchTerm && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSearchTerm("");
+                      setPage(1);
+                    }}
+                    aria-label="Clear search"
+                    title="Clear search"
+                    className="rounded-md p-1.5 text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={toggleSpeechToText}
+                  aria-label={
+                    isListening ? "Stop voice search" : "Start voice search"
+                  }
+                  title={isListening ? "Stop listening" : "Search by voice"}
+                  className={`rounded-md p-1.5 transition-colors ${
+                    isListening
+                      ? "text-destructive bg-destructive/10"
+                      : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                  }`}
+                >
+                  {isListening ? (
+                    <MicOff className="h-4 w-4" />
+                  ) : (
+                    <Mic className="h-4 w-4" />
+                  )}
+                </button>
+              </div>
             </div>
 
             <Button size="lg" onClick={() => navigate("/create")}>
